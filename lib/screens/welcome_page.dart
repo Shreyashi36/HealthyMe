@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_me/auth/auth_service.dart';
 import 'package:healthy_me/screens/login.dart';
 import 'package:healthy_me/screens/sign_up.dart';
 import 'package:healthy_me/widgets/custom_image.dart';
@@ -13,6 +14,7 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
+    final auth = AuthService();
     return Scaffold(
       backgroundColor: Color(0xFFE6F2FF), // Light blue background
       body: Center(
@@ -91,12 +93,3 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 }
-
-// Widget getImage() {
-//   AssetImage assetImage = const AssetImage('assets/images/welcome_image.png');
-//   Image image = Image(
-//     image: assetImage,
-//     height: 250,
-//   );
-//   return image;
-// }

@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:healthy_me/auth/auth_service.dart';
+import 'package:healthy_me/screens/home.dart';
 import 'package:healthy_me/screens/login.dart';
 import 'package:healthy_me/widgets/custom_image.dart';
 
@@ -10,7 +14,21 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final _auth = AuthService();
+
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _fullName = TextEditingController();
   bool _obsecureText = true;
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    _fullName.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +72,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    controller: _fullName,
                   ),
 
                   SizedBox(height: 20),
@@ -65,6 +84,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    controller: _email,
                   ),
 
                   SizedBox(height: 20),
@@ -86,6 +106,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    controller: _password,
                   ),
                   SizedBox(height: 10),
                   Align(
@@ -98,11 +119,10 @@ class _SignUpState extends State<SignUp> {
                           style: TextStyle(color: Color(0xFF5A5A97))),
                     ),
                   ),
+
+                  //sign up button
                   ElevatedButton(
-                    onPressed: () {
-                      //Login button action
-                      //home page
-                    },
+                    onPressed: _signup,
                     style: ElevatedButton.styleFrom(
                       padding:
                           EdgeInsets.symmetric(horizontal: 100, vertical: 15),
@@ -143,5 +163,25 @@ class _SignUpState extends State<SignUp> {
             ),
           );
         }))));
+  }
+
+  goToHome(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+  }
+
+  _signup() async {
+    try {
+      final user = await _auth.createUserWithEmailAndPassword(
+          _email.text, _password.text);
+
+      if (user != null) {
+        log("User created successfully: ${user.email}");
+        goToHome(context);
+      } else {
+        log("User creation failed");
+      }
+    } catch (e) {
+      log("Error signing up: $e"); // Debugging info
+    }
   }
 }

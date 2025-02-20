@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_me/auth/auth_service.dart';
 import 'package:healthy_me/screens/home.dart';
 import 'package:healthy_me/screens/welcome_page.dart';
 import 'package:healthy_me/widgets/custom_image.dart';
@@ -11,6 +12,17 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _auth = AuthService();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
   bool _obsecureText = true;
 
   @override
@@ -56,6 +68,8 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    controller: _email,
+                    keyboardType: TextInputType.emailAddress,
                   ),
 
                   SizedBox(height: 20),
@@ -77,6 +91,7 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    controller: _password,
                   ),
                   SizedBox(height: 10),
                   Align(
@@ -90,10 +105,8 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Home()));
-                    },
+                    //////////////////////////
+                    onPressed: _login,
                     style: ElevatedButton.styleFrom(
                       padding:
                           EdgeInsets.symmetric(horizontal: 100, vertical: 15),
@@ -117,12 +130,7 @@ class _LoginState extends State<Login> {
                     children: [
                       Text("Don't have an account?"),
                       TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WelcomePage()));
-                          },
+                          onPressed: goToSignUp(context),
                           child: Text(
                             'Sign Up',
                             style: TextStyle(color: Color(0xFF5A5A97)),
@@ -134,5 +142,24 @@ class _LoginState extends State<Login> {
             ),
           );
         }))));
+  }
+
+  goToSignUp(BuildContext context) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => WelcomePage()));
+  }
+
+  goToHome(BuildContext context) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home()));
+  }
+
+  _login() async {
+    final user =
+        await _auth.loginUserWithEmailAndPassword(_email.text, _password.text);
+    if (user != null) {
+      print("User Logged In");
+      goToHome(context);
+    }
   }
 }

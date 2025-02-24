@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:healthy_me/auth/auth_service.dart';
 import 'package:healthy_me/screens/home.dart';
-import 'package:healthy_me/screens/login.dart';
+import 'package:healthy_me/auth/login.dart';
+import 'package:healthy_me/widgets/button.dart';
 import 'package:healthy_me/widgets/custom_image.dart';
+import 'package:healthy_me/widgets/textfield.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -65,50 +67,26 @@ class _SignUpState extends State<SignUp> {
                   //spacing
                   SizedBox(height: 30),
 
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Full Name',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+                  CustomTextField(
+                    labelText: 'Full Name',
                     controller: _fullName,
                   ),
-
                   SizedBox(height: 20),
 
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+                  CustomTextField(
+                    labelText: 'Email',
                     controller: _email,
                   ),
 
                   SizedBox(height: 20),
-                  TextField(
-                    obscureText: _obsecureText,
-                    decoration: InputDecoration(
-                      alignLabelWithHint: true,
-                      labelText: 'Password',
-                      suffixIcon: IconButton(
-                          icon: Icon(_obsecureText
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          onPressed: () {
-                            setState(() {
-                              _obsecureText = !_obsecureText;
-                            });
-                          }),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+
+                  CustomTextField(
+                    labelText: 'Password',
                     controller: _password,
+                    isPassword: true,
                   ),
                   SizedBox(height: 10),
+
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -119,25 +97,10 @@ class _SignUpState extends State<SignUp> {
                           style: TextStyle(color: Color(0xFF5A5A97))),
                     ),
                   ),
-
-                  //sign up button
-                  ElevatedButton(
+                  //sign in
+                  CustomButton(
+                    text: 'Sign Up',
                     onPressed: _signup,
-                    style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                      textStyle: TextStyle(fontSize: 20),
-                      backgroundColor:
-                          Color(0xFF5A5A97), // Dark purple button color
-                      foregroundColor: Colors.white, // White text color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      'Sign Up',
-                      style: TextStyle(fontSize: 18),
-                    ),
                   ),
 
                   SizedBox(height: 20), // Spacing between buttons

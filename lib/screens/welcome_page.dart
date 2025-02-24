@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_me/auth/auth_service.dart';
-import 'package:healthy_me/screens/login.dart';
-import 'package:healthy_me/screens/sign_up.dart';
+import 'package:healthy_me/auth/login.dart';
+import 'package:healthy_me/auth/sign_up.dart';
+import 'package:healthy_me/widgets/button.dart';
 import 'package:healthy_me/widgets/custom_image.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -46,25 +47,12 @@ class _WelcomePageState extends State<WelcomePage> {
 
             SizedBox(height: 60),
 
-            // Spacing between image and buttons
-            ElevatedButton(
+            CustomButton(
+              text: 'Sign Up',
               onPressed: () {
                 Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (context) => SignUp()));
               },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 90, vertical: 15),
-                textStyle: TextStyle(fontSize: 20),
-                backgroundColor: Color(0xFF5A5A97), // Dark purple button color
-                foregroundColor: Colors.white, // White text color
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Text(
-                'Sign Up',
-                style: TextStyle(fontSize: 18),
-              ),
             ),
 
             SizedBox(height: 20), // Spacing between buttons

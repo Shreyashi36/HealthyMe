@@ -1,147 +1,160 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:healthy_me/widgets/button.dart';
+import 'package:healthy_me/widgets/camera_preview.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
-
   @override
-  State<Home> createState() => _HomeState();
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  String _selectedPlan = 'Normal plan';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE6F2FF), // Light blue background
       appBar: AppBar(
-        backgroundColor: Color(0xFFE6F2FF), // Light blue background
-        elevation: 0, // Remove app bar shadow
-        title: Row(
-          children: [
-            Text(
-              '👋 Hi Julia!',
-              style: TextStyle(
-                color: Color(0xFF4A4A4A),
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Spacer(), // Add space between title and profile icon
-            CircleAvatar(
-              backgroundColor: Colors.grey[300],
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-            ),
-          ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Go back to the previous page
+          },
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
-            _buildFeatureCard(
-              context,
-              title: 'Your Diet Chart',
-              image: 'assets/images/diet.png', // Replace with your image path
-              routeName: '/diet', // Define route for Diet Screen
-            ),
-            SizedBox(height: 20),
-            _buildFeatureCard(
-              context,
-              title: 'Daily Exercise',
-              image: 'assets/images/yoga.png', // Replace with your image path
-              routeName: '/exercise', // Define route for Exercise Screen
-            ),
-            SizedBox(height: 20),
-            _buildFeatureCard(
-              context,
-              title: 'Sleep Schedule',
-              image:
-                  'assets/images/calendar.png', // Replace with your image path
-              routeName: '/sleep', // Define route for Sleep Screen
-            ),
-            SizedBox(height: 20),
-            _buildFeatureCard(
-              context,
-              title: 'Online Chat',
-              image: 'assets/images/doctor.png', // Replace with your image path
-              routeName: '/chat', // Define route for Chat Screen
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.grid_view),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.insights),
-            label: 'Progress',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+        title: Text('Workout Plan'), // You can customize the title
+        actions: [
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () {
+              // Handle more options
+            },
           ),
         ],
-        selectedItemColor: Color(0xFF5A5A97), // Highlight selected icon
-        unselectedItemColor: Colors.grey, // Unselected icon color
-        onTap: (int index) {
-          // Define navigation for bottom bar icons
-          switch (index) {
-            case 0: // Home
-              break; // Already on Home screen
-            case 1: // Progress
-              Navigator.pushNamed(
-                  context, '/progress'); // Navigate to Progress screen
-              break;
-            case 2: // Notifications
-              Navigator.pushNamed(context,
-                  '/notifications'); // Navigate to Notifications screen
-              break;
-            case 3: // Settings
-              Navigator.pushNamed(
-                  context, '/settings'); // Navigate to Settings screen
-              break;
-          }
-        },
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                _buildPlanButton(
+                    context, 'easy plan', 'assets/images/home_page/easy.png'),
+                _buildPlanButton(context, 'Normal plan',
+                    'assets/images/home_page/normal.png'),
+                _buildPlanButton(
+                    context, 'Hard plan', 'assets/images/home_page/hard.png'),
+                _buildPlanButton(context, 'Super flexible',
+                    'assets/images/home_page/super.png'),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              _selectedPlan, // Use the selected plan
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text('If you never exercise'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(''),
+                CustomButton(text: 'Start', onPressed: () {})
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 30, // Assuming 30 days
+              itemBuilder: (context, index) {
+                return _buildDayListItem(context, index + 1);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context,
-      {required String title,
-      required String image,
-      required String routeName}) {
+  Widget _buildPlanButton(
+      BuildContext context, String planName, String imagePath) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, routeName);
+        setState(() {
+          _selectedPlan = planName;
+        });
+        print('Plan selected: $planName');
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        padding: EdgeInsets.all(20.0),
-        child: Row(
+      child: Column(
+        children: <Widget>[
+          Image.asset(imagePath, width: 50, height: 50),
+          Text(planName),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDayListItem(BuildContext context, int dayNumber) {
+    // Replace with actual data fetching based on the selected plan
+    int exercises = dayNumber % 5 + 9; // Example logic
+    String duration = '${dayNumber % 3 + 4}:00 min'; // Example logic
+    int calories = dayNumber * 3 + 90; // Example logic
+
+    return ListTile(
+      leading: Icon(Icons.check_circle, color: Colors.blue),
+      title: Text('Day $dayNumber'),
+      subtitle: Text('$exercises Exercises   $duration   $calories Kcal'),
+      trailing: Icon(Icons.chevron_right),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DayDetailsPage(dayNumber: dayNumber),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DayDetailsPage extends StatelessWidget {
+  final int dayNumber;
+
+  DayDetailsPage({required this.dayNumber});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Day $dayNumber Details'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              image,
-              height: 80, // Adjust image height as needed
-            ),
-            SizedBox(width: 20),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 20,
-                color: Color(0xFF4A4A4A),
-              ),
+            Text('Day $dayNumber Exercises'),
+            CustomButton(
+              text: "Record Video",
+              onPressed: () {
+                // Navigate to video recording page
+                // You'll need to create a new page for this
+                // log('Navigate to video recording for Day $dayNumber');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VideoRecorder(),
+                  ),
+                );
+              },
             ),
           ],
         ),

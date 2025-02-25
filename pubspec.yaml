@@ -66,6 +66,11 @@ flutter:
     - assets/images/yoga.png
     - assets/images/calendar.png
     - assets/images/forgot_password.png
+    - assets/images/starter_page.png
+    - assets/images/easy_plan.png
+    - assets/images/normal_plan.png
+    - assets/images/hard_plan.png
+    - assets/images/super_flexible.png
 
   #   - images/a_dot_ham.jpeg
 

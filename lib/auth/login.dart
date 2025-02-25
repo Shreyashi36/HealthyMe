@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:healthy_me/auth/auth_service.dart';
 import 'package:healthy_me/auth/forgot_pass.dart';
 import 'package:healthy_me/screens/home.dart';
+import 'package:healthy_me/screens/get_started_page.dart';
 import 'package:healthy_me/screens/welcome_page.dart';
 import 'package:healthy_me/widgets/button.dart';
 import 'package:healthy_me/widgets/custom_image.dart';
@@ -115,10 +116,10 @@ class _LoginState extends State<Login> {
     );
   }
 
-  goToHome(BuildContext context) {
+  goToPostSignUpScreen(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => Home()),
+      MaterialPageRoute(builder: (context) => PostSignupScreen()),
     );
   }
 
@@ -129,7 +130,7 @@ class _LoginState extends State<Login> {
       if (user != null) {
         log("User Logged In");
         Future.delayed(Duration(milliseconds: 100), () {
-          if (mounted) goToHome(context);
+          if (mounted) goToPostSignUpScreen(context);
         });
       } else {
         _showErrorDialog("Invalid email or password.");

@@ -30,7 +30,7 @@ class PostSignupScreen extends StatelessWidget {
               child: Center(
                 // Center the image
                 child: Image.asset(
-                  'assets/images/starter_page.png',
+                  'assets/images/starter_page1.png',
                   height: 400,
                 ),
               ),

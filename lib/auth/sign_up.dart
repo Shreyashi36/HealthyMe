@@ -129,7 +129,8 @@ class _SignUpState extends State<SignUp> {
   }
 
   goToHome(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   _signup() async {

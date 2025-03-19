@@ -43,7 +43,6 @@ dependencies:
   tflite_flutter: ^0.11.0
   image: ^3.0.1
   tflite_flutter_helper_plus: ^0.0.2
-  flutter_mediapipe: ^0.0.7
   google_mlkit_pose_detection: ^0.1.0
 
 dev_dependencies:
@@ -84,6 +83,7 @@ flutter:
     - assets/images/home_page/normal.png
     - assets/images/home_page/hard.png
     - assets/images/home_page/super.png
+    - assets/images/day_details/day_1.png
 
   #   - images/a_dot_ham.jpeg
 
